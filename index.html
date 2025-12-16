@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Chess Reviews</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@mliebelt/pgn-viewer@1.6.6/lib/pgnv.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mliebelt/pgn-viewer@1.6.6/lib/css/pgnv.css">
+    
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        h1 { color: #333; }
+       .controls { margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        select { padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 300px; }
+        #board { width: 400px; margin: 0 auto; }
+       .description { max-width: 600px; text-align: center; color: #666; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>♟️ Weekly Top Game Analysis</h1>
+    <p class="description">Select a game below to view the interactive review. Use the arrow keys or buttons to step through the moves and read my analysis.</p>
+
+    <div class="controls">
+        <label for="game-selector"><strong>Choose a Game:</strong></label>
+        <select id="game-selector" onchange="loadGame()">
+            </select>
+    </div>
+
+    <div id="board"></div>
+
+    <script>
+        // ==========================================
+        // YOUR GAME DATA GOES HERE
+        // Paste your PGNs inside the quotes. 
+        // Use single quotes '' for the PGN string.
+        // ==========================================
+        const games = 1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. c4 c6 12. c5 {This is a critical moment. White challenges the center immediately.} dxc5 13. dxe5 Ne8 14. e6! {The breakthrough. Black structure is now compromised.} fxe6 15. Bxe6+ Kh8 16. Nc3 Nc7 17. Bf5 g6 18. Bg4 h5 19. Bxd7 Qxd7 20. Bh6 Qxd1 21. Raxd1 Re8 22. Bf4 Ne6 23. Bd6 Kg8 24. e5 1-0'
+            },
+            {
+                label: "Ding Liren vs. Gukesh D (Example)",
+                pgn: ' 1. d4 Nf6 2. c4 e6 3. Nf3 d5 4. Nc3 c5 {The Semi-Tarrasch defense, a solid choice.} 5. cxd5 Nxd5 6. e4 Nxc3 7. bxc3 cxd4 8. cxd4 Bb4+ 9. Bd2 Bxd2+ 10. Qxd2 O-O 11. Bc4 Nd7 12. O-O b6 13. Rad1 Bb7 14. Rfe1 Rc8 15. Bb3 Re8 16. h3 h6 17. Qe3 Nf6 18. Qf4 Qc7 19. Qh4 Qc3 20. Re3 Qb2 0-1'
+            }
+        ];
+
+        // Function to initialize the dropdown
+        function init() {
+            const selector = document.getElementById('game-selector');
+            games.forEach((game, index) => {
+                let option = document.createElement("option");
+                option.text = game.label;
+                option.value = index;
+                selector.add(option);
+            });
+            
+            // Load the first game by default
+            loadGame();
+        }
+
+        // Function to load the selected game
+        function loadGame() {
+            const index = document.getElementById('game-selector').value;
+            const selectedGame = games[index];
+
+            // Clear the previous board
+            document.getElementById('board').innerHTML = "";
+
+            // Render the new board using PgnViewerJS
+            // Ref: https://github.com/mliebelt/pgn-viewer
+            PGNV.pgnView('board', {
+                pgn: selectedGame.pgn,
+                width: '400px',
+                boardSize: '400px',
+                pieceStyle: 'merida', // Options: 'merida', 'alpha', 'uscf', 'wikipedia'
+                theme: 'sportverlag', // Options: 'sportverlag', 'zeit', 'green', 'blue'
+                layout: 'left',       // Layout of the moves relative to board
+                showCoords: true
+            });
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
