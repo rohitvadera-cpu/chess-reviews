@@ -111,44 +111,44 @@
 
         // Initialize the dropdown menu
         function init() {
-            const selector = document.getElementById('game-selector');
-            
-            games.forEach((game, index) => {
-                let option = document.createElement("option");
-                option.text = game.label;
-                option.value = index;
-                selector.add(option);
-            });
-            
-            // Load the first game immediately
-            loadGame();
-        }
+        const selector = document.getElementById('game-selector');
+        
+        // Populate the dropdown
+        games.forEach((game, index) => {
+            let option = document.createElement("option");
+            option.text = game.label;
+            option.value = index;
+            selector.add(option);
+        });
+        
+        // Load the first game immediately
+        loadGame();
+    }
 
-        // Render the selected game
-        function loadGame() {
-            const index = document.getElementById('game-selector').value;
-            const selectedGame = games[index];
+    function loadGame() {
+        const index = document.getElementById('game-selector').value;
+        const selectedGame = games[index];
 
-            // Clear previous board
-            document.getElementById('board').innerHTML = "";
+        // Clear previous board
+        document.getElementById('board').innerHTML = "";
 
-            // Initialize PgnViewerJS with the selected PGN
-            // Documentation: https://github.com/mliebelt/pgn-viewer
-            PGNV.pgnView('board', {
-                pgn: selectedGame.pgn,
-                width: '100%',         // Responsive width
-                boardSize: '500px',    // Max width
-                pieceStyle: 'merida',  // Classic chess piece style
-                theme: 'sportverlag',  // Nice clean board theme
-                layout: 'left',        // Moves appear to the left (desktop) or under (mobile)
-                showCoords: true,
-                startPlay: 'start',    // Start at opening position
-                headers: true          // Show Player Names & Elo
-            });
-        }
+        // Initialize PgnViewerJS with the selected PGN
+        PGNV.pgnView('board', {
+            pgn: selectedGame.pgn,
+            width: '100%',
+            boardSize: '500px',
+            pieceStyle: 'merida',
+            theme: 'sportverlag',
+            layout: 'left',
+            showCoords: true,
+            startPlay: 'start',
+            headers: true // Now true because the PGNs have headers
+        });
+    }
 
-        // Run initialization
-        init();
-    </script>
+    // Run the script
+    init();
+</script>
 </body>
 </html>
+
